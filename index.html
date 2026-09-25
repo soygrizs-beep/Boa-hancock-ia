@@ -78,8 +78,8 @@
 
       if (isImageReq) {
         const loadingId = addMsg('Preparando la imagen para ti...', 'ai');
-        const cleanPrompt = encodeURIComponent('boa hancock, anime, ' + text.replace(/(dibuja|crea|una|foto|de|imagen|genera|muéstrame|ver|haz)/gi, '').trim());
-        const imgUrl = `https://gen.pollinations.ai/p/${cleanPrompt}?width=800&height=800&seed=${Math.floor(Math.random() * 1000000)}&nologo=true`;
+        const cleanPrompt = encodeURIComponent('boa hancock, anime masterpiece, ' + text.replace(/(dibuja|crea|una|foto|de|imagen|genera|muéstrame|ver|haz)/gi, '').trim());
+        const imgUrl = `https://image.pollinations.ai/prompt/${cleanPrompt}?width=800&height=800&seed=${Math.floor(Math.random() * 1000000)}&nologo=true`;
         
         const img = new Image();
         img.src = imgUrl;
@@ -96,7 +96,7 @@
       const loadingId = addMsg('Pensando...', 'ai');
 
       try {
-        const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(text)}?model=openai&system=${encodeURIComponent(systemPrompt)}`);
+        const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(text)}?system=${encodeURIComponent(systemPrompt)}`);
         if (!response.ok) throw new Error("API error");
         const data = await response.text();
         
@@ -120,5 +120,6 @@
   </script>
 </body>
 </html>
+
 
 
