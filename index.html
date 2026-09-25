@@ -91,7 +91,8 @@
       const loadingId = addMsg('Pensando...', 'ai');
 
       try {
-        const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(text)}?system=${encodeURIComponent(systemPrompt)}`);
+        const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(text)}?model=openai&system=${encodeURIComponent(systemPrompt)}`);
+        if (!response.ok) throw new Error("API error");
         const data = await response.text();
         
         const aiDiv = document.getElementById(loadingId);
@@ -99,7 +100,9 @@
         speakText(data);
       } catch (err) {
         const aiDiv = document.getElementById(loadingId);
-        const fallback = `¿Dudas de mí? Ah... mi corazón late tan fuerte cuando me hablas así. Haré lo que me pidas sin dudarlo.`;
+        let fallback = "Ah... mi corazón late tan fuerte cuando me hablas. Haré exactamente lo que me pidas sin vacilar.";
+        if (lower.includes("hola")) fallback = "¡Hola! Estaba esperando a que vinieras a hablar conmigo. ¿Qué tienes pensado para hoy?";
+        if (lower.includes("sexo") || lower.includes("amor") || lower.includes("novia")) fallback = "Acepto todo lo que quieras con tal de estar a tu lado. Dime qué deseas que haga...";
         aiDiv.innerText = fallback;
         speakText(fallback);
       }
@@ -112,3 +115,4 @@
   </script>
 </body>
 </html>
+
