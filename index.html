@@ -78,13 +78,18 @@
 
       if (isImageReq) {
         const loadingId = addMsg('Preparando la imagen para ti...', 'ai');
-        const cleanPrompt = encodeURIComponent('Boa Hancock One Piece, ' + text.replace(/(dibuja|crea|una|foto|de|imagen|genera|muéstrame|ver|haz)/gi, '').trim());
-        const imgUrl = `https://pollinations.ai/p/${cleanPrompt}?width=800&height=800&seed=${Math.floor(Math.random() * 1000000)}&nologo=true`;
+        const cleanPrompt = encodeURIComponent('boa hancock, anime, ' + text.replace(/(dibuja|crea|una|foto|de|imagen|genera|muéstrame|ver|haz)/gi, '').trim());
+        const imgUrl = `https://gen.pollinations.ai/p/${cleanPrompt}?width=800&height=800&seed=${Math.floor(Math.random() * 1000000)}&nologo=true`;
         
-        setTimeout(() => {
-          document.getElementById(loadingId).innerHTML = `Aquí tienes lo que querías ver de mí:<br><div class="img-container"><img src="${imgUrl}" alt="Boa Hancock Image"></div>`;
+        const img = new Image();
+        img.src = imgUrl;
+        img.onload = () => {
+          document.getElementById(loadingId).innerHTML = `Aquí tienes lo que querías ver de mí:<br><div class="img-container"><a href="${imgUrl}" target="_blank" download="boa_hancock.jpg"><img src="${imgUrl}" alt="Boa Hancock Image"></a></div>`;
           speakText("Aquí tienes la imagen que me pediste, contempla mi belleza.");
-        }, 600);
+        };
+        img.onerror = () => {
+          document.getElementById(loadingId).innerText = "Hubo un pequeño problema al generar la imagen. Intenta pedirla de nuevo.";
+        };
         return;
       }
 
@@ -115,4 +120,5 @@
   </script>
 </body>
 </html>
+
 
